@@ -41,8 +41,8 @@ int main() {
 	//ball.speedX = 100;
 	//ball.speedY = 300;
 
-	Paddle leftPaddle(50, GetScreenHeight() / 2, 500, 10, 100);
-	Paddle rightPaddle(GetScreenWidth() - 50, GetScreenHeight() / 2, 500, 10, 100);
+	Paddle leftPaddle(50, GetScreenHeight() / 2, 750, 10, 100);
+	Paddle rightPaddle(GetScreenWidth() - 50, GetScreenHeight() / 2, 750, 10, 100);
 
 
 	while (!WindowShouldClose()) {
@@ -78,13 +78,17 @@ int main() {
 		}
 
 		if (CheckCollisionCircleRec(Vector2{ ball.x, ball.y }, ball.radius, leftPaddle.GetRec())) {
-			if(ball.speedX < 0)
+			if (ball.speedX < 0) {
 				ball.speedX *= -1.1f;
+				ball.speedY = (ball.y - leftPaddle.y) / (leftPaddle.height / 2) * ball.speedX; //scaling ballspeedY with ballspeedX instead of a constant
+			}
 		}
 
 		if (CheckCollisionCircleRec(Vector2{ ball.x, ball.y }, ball.radius, rightPaddle.GetRec())) {
-			if(ball.speedX > 0)
+			if (ball.speedX > 0) {
 				ball.speedX *= -1.1f;
+				ball.speedY = (ball.y - rightPaddle.y) / (rightPaddle.height / 2) * - ball.speedX;
+			}
 		}
 
 		BeginDrawing();
