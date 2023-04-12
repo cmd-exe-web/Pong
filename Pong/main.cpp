@@ -45,6 +45,8 @@ int main() {
 	Paddle rightPaddle(GetScreenWidth() - 50, GetScreenHeight() / 2, 750, 10, 100);
 
 
+	const char* WinnerText = nullptr;
+
 	while (!WindowShouldClose()) {
 
 		ball.x += ball.speedX * GetFrameTime();
@@ -60,20 +62,20 @@ int main() {
 			ball.speedY *= -1;
 		}
 
-		if (IsKeyDown(KEY_W)) {
+		if (IsKeyDown(KEY_W) && leftPaddle.y > leftPaddle.height / 2) {
 			leftPaddle.y -= leftPaddle.speed * GetFrameTime();
 
 		}
 
-		if (IsKeyDown(KEY_S)) {
+		if (IsKeyDown(KEY_S) && leftPaddle.y + leftPaddle.height / 2 < GetScreenHeight()) {
 			leftPaddle.y += leftPaddle.speed * GetFrameTime();
 		}
 
-		if (IsKeyDown(KEY_UP)) {
+		if (IsKeyDown(KEY_UP) && rightPaddle.y > rightPaddle.height / 2) {
 			rightPaddle.y -= rightPaddle.speed * GetFrameTime();
 		}
 
-		if (IsKeyDown(KEY_DOWN)) {
+		if (IsKeyDown(KEY_DOWN) && rightPaddle.y + rightPaddle.height / 2 < GetScreenHeight()) {
 			rightPaddle.y += rightPaddle.speed * GetFrameTime();
 		}
 
@@ -91,12 +93,31 @@ int main() {
 			}
 		}
 
+		if (ball.x < 0) {
+			WinnerText = "Player B wins";
+		}
+		if (ball.x > GetScreenWidth()) {
+			WinnerText = "Player A wins";
+		}
+		if (WinnerText && IsKeyPressed(KEY_SPACE) || IsKeyPressed(KEY_R)) {
+			ball.x = GetScreenWidth() / 2;
+			ball.y = GetScreenHeight() / 2;
+			ball.speedX = 300;
+			ball.speedY = 300;
+			WinnerText = nullptr;
+		}
+
 		BeginDrawing();
 			ClearBackground(BLACK);
 
 			ball.Draw();
 			leftPaddle.Draw();
 			rightPaddle.Draw();
+
+			if (WinnerText) {
+				int textWidth = MeasureText(WinnerText, 60);
+				DrawText(WinnerText, GetScreenWidth() / 2 - textWidth / 2, GetScreenHeight() / 2 - 30, 60, YELLOW);
+			}
 
 			DrawFPS(10, 10);
 
