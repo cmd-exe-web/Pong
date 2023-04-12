@@ -105,7 +105,11 @@ int main() {
 			ball.speedX = 300;
 			ball.speedY = 300;
 			WinnerText = nullptr;
+			leftPaddle.y = GetScreenHeight() / 2;
+			rightPaddle.y = GetScreenHeight() / 2;
 		}
+
+		
 
 		BeginDrawing();
 			ClearBackground(BLACK);
