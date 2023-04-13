@@ -1,3 +1,4 @@
+#include <stdlib.h>
 #include "raylib.h"
 
 struct Ball {
@@ -102,8 +103,11 @@ int main() {
 		if (WinnerText && IsKeyPressed(KEY_SPACE) || IsKeyPressed(KEY_R)) {
 			ball.x = GetScreenWidth() / 2;
 			ball.y = GetScreenHeight() / 2;
-			ball.speedX = 300;
-			ball.speedY = 300;
+			int rand1 = (rand() % 2) == 0 ? -1 : 1;
+			int rand2 = (rand() % 2) == 0 ? -1 : 1;
+			
+			ball.speedX = 300 * rand1;
+			ball.speedY = 300 * rand2;
 			WinnerText = nullptr;
 			leftPaddle.y = GetScreenHeight() / 2;
 			rightPaddle.y = GetScreenHeight() / 2;
